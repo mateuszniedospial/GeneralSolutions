@@ -1,3 +1,5 @@
+package X_Exercises.ScalaStart;
+
 /**
  * Created by Mateusz Niedośpiał on 18.06.2017.
  */

@@ -1,8 +1,10 @@
+package X_Exercises.ScalaStart
+
 /**
   * Created by Mateusz Niedośpiał on 18.06.2017.
   */
-class HelloWorld (private val firstInt:Int,
-                 private val secondInt:Int) {
+class SimpleClass(private val firstInt:Int,
+                  private val secondInt:Int) {
 
   def this(first:Int){
     this(first, 0)
