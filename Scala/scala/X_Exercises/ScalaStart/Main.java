@@ -1,7 +1,5 @@
 package X_Exercises.ScalaStart;
 
-import X_Exercises.ScalaStart.SimpleClass;
-
 /**
  * Created by Mateusz Niedośpiał on 18.06.2017.
  */
