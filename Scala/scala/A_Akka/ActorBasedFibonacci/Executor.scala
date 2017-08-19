@@ -7,7 +7,7 @@ import akka.actor.{ActorRef, ActorSystem, Props}
 object Executor {
   val system: ActorSystem = ActorSystem("ActorBasedFibonacciSystem")
   val performer: ActorRef = system.actorOf(Props[Performer], name="GeneralPerformerOfFibonacci")
-  val forNumber: Int = 30
+  val forNumber: Int = 80
 
 
   def main(args: Array[String]): Unit = {
