@@ -1,0 +1,74 @@
+package A_Akka.GameOfThrones.Players
+
+import A_Akka.GameOfThrones
+import A_Akka.GameOfThrones.Buyable.Buyable
+import A_Akka.GameOfThrones.NPCs.Merchant
+import A_Akka.GameOfThrones.Places.Place
+
+import scala.concurrent.duration.Duration
+
+/**
+  * Created by Mateusz Niedośpiał on 19.08.2017.
+  */
+trait Player{
+  var gold: Double
+  var military: Int
+  var betterEquippedMilitary: Boolean
+  var drakeDestroyer: Int
+
+  var alliedWith: Player
+  var surrenderedTo: Player
+
+  def attack(place: Place, amountOfMilitary: Int): Player = {
+    if(place.belongTo.equals(Noone)){
+      place.fightBack(this, amountOfMilitary)
+      if(place.belongTo.equals(this)) {
+        println("Success!")
+        this
+      } else {
+        println("You've failed.")
+        place.belongTo
+      }
+    } else {
+      place.fightBack(this, amountOfMilitary)
+    }
+  }
+
+  def defend(place: Place, amountOfMilitary: Int): Player = {
+    if(place.belongTo.equals(this)){
+      val winner: Player = place.defend(amountOfMilitary)
+      winner
+    } else {
+      throw new UnsupportedOperationException("One cannot defend a place that one doesn't possess.")
+    }
+  }
+
+  def doNotDefend(place: Place): Unit = {
+    if(place.belongTo.equals(this)){
+      place.doNotDefend()
+    }
+  }
+
+  def buy(buyable: Buyable, fromWho: Merchant): Unit = {
+
+  }
+
+  def proposeAlliance(toWho: Player, duration: Duration)
+
+  def surrender(toWho: Player): Unit = {
+    if(this.betterEquippedMilitary && !toWho.betterEquippedMilitary) toWho.betterEquippedMilitary
+    toWho.gold = toWho.gold + this.gold
+    toWho.military = toWho.military + this.military
+    toWho.drakeDestroyer = toWho.drakeDestroyer + this.drakeDestroyer
+
+    this.gold = 0
+    this.betterEquippedMilitary = false
+    this.military = 0
+    this.drakeDestroyer = 0
+    this.alliedWith = Noone
+    this.surrenderedTo = toWho
+
+    for(place <- GameOfThrones.allPlaces) if(place.belongTo.equals(this)) place.belongTo = toWho
+    println(this.toString + " has just surrendered to: " + toWho.toString)
+  }
+}
