@@ -26,11 +26,11 @@ object Daenerys extends Actor with Player{
 
   }
 
-  override def buy(buyable: Buyable, fromWho: Merchant): Unit = ???
+  override def buy(buyable: Buyable, fromWho: Merchant): Unit = {}
 
-  override def proposeAlliance(toWho: Player, duration: Duration): Unit = ???
+  override def proposeAlliance(toWho: Player, duration: Duration): Unit = {}
 
-  override def surrender(toWho: Player): Unit = ???
+  override def surrender(toWho: Player): Unit = {}
 
   override def receive: Receive = {
     case GameStarted =>

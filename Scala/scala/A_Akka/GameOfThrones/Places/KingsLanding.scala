@@ -6,8 +6,8 @@ import A_Akka.GameOfThrones.Players.{Cersei, Noone, Player}
   */
 object KingsLanding extends Place{
   override var name: String = "Kings Landing"
-  override var bandits: Int = null
-  override var gold: Double = null
+  override var bandits: Int = _
+  override var gold: Double = _
   override var militaryToGain: Int = 100000
   override var belongTo: Player = Cersei
   override var occupiedBy: Player = Noone

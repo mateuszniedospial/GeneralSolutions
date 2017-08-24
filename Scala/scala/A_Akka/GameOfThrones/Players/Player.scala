@@ -53,7 +53,7 @@ trait Player{
 
   }
 
-  def proposeAlliance(toWho: Player, duration: Duration)
+  def proposeAlliance(toWho: Player, duration: Duration): Unit = {}
 
   def surrender(toWho: Player): Unit = {
     if(this.betterEquippedMilitary && !toWho.betterEquippedMilitary) toWho.betterEquippedMilitary

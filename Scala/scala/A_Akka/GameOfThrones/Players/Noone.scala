@@ -15,8 +15,8 @@ case object Noone extends Player{
   override var alliedWith: Player = Noone
   override var surrenderedTo: Player = Noone
   override var drakeDestroyer: Int = 0
-  override def attack(place: Place, amountOfMilitary: Int): Unit = {}
-  override def defend(place: Place, amountOfMilitary: Int): Unit = {}
+  override def attack(place: Place, amountOfMilitary: Int): Player = this
+  override def defend(place: Place, amountOfMilitary: Int): Player = this
   override def buy(buyable: Buyable, fromWho: Merchant): Unit = {}
   override def proposeAlliance(toWho: Player, duration: Duration): Unit = {}
   override def surrender(toWho: Player): Unit = {}

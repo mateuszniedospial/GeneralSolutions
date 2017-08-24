@@ -10,7 +10,7 @@ import scala.collection.mutable
   */
 trait Merchant {
   var occupiedBy: Player
-  var toSell: Map[Buyable, Int]
+  var toSell: mutable.HashMap[Buyable, Int]
 
   def sell(what: Buyable, amount: Int, toWhom: Player): Buyable = {
     if(toSell(what) >= amount){

@@ -9,7 +9,7 @@ import scala.collection.mutable
   * Created by Mateusz Niedośpiał on 19.08.2017.
   */
 object Alonso extends Merchant with Actor{
-  override var toSell =  scala.collection.mutable.Map(DrakeDestroyer(2) -> 2, Military(9) -> 9)
+  var toSell: mutable.HashMap[Buyable, Int] = scala.collection.mutable.HashMap(DrakeDestroyer(2) -> 2, Military(9) -> 9)
   override def toString: String = "Alonso"
   override def receive: Receive = ???
 
