@@ -2,6 +2,7 @@ package A_Akka.GameOfThrones.NPCs
 
 import A_Akka.GameOfThrones.Buyable.{BetterEquipment, Buyable, DrakeDestroyer, Military}
 import A_Akka.GameOfThrones.Players.Player
+import akka.actor.ActorRef
 
 import scala.collection.mutable
 
@@ -12,21 +13,39 @@ trait Merchant {
   var occupiedBy: Player
   var toSell: mutable.HashMap[Buyable, Int]
 
-  def sell(what: Buyable, amount: Int, toWhom: Player): Buyable = {
-    if(toSell(what) >= amount){
+  def returnSelf(): ActorRef
+
+  def sell(what: Buyable, amount: Int, toWhom: Player): String = {
+    if(toWhom.gold >= what.price()){
+      if(toSell(what) >= amount){
       toSell(what) = toSell(what)-amount
       what.getType() match {
-        case "Military" => Military(amount)
-        case "DrakeDestroyer" => DrakeDestroyer(amount)
-        case "BetterEquipment" => BetterEquipment(amount)
+        case "Military" =>
+          toWhom.gold = toWhom.gold - Military(amount).price()
+          toWhom.military = toWhom.military + Military(amount).amount()
+          "Successfully bought: " + what.getType() + " x 1"
+        case "DrakeDestroyer" =>
+          toWhom.gold = toWhom.gold - DrakeDestroyer(amount).price()
+          toWhom.drakeDestroyer = toWhom.drakeDestroyer + DrakeDestroyer(amount).amount()
+          "Successfully bought: " + what.getType() + " x 1"
+        case "BetterEquipment" =>
+          toWhom.gold = toWhom.gold - BetterEquipment(amount).price()
+          toWhom.betterEquippedMilitary = true
+          "Successfully bought: " + what.getType() + " x 1"
       }
-    } else if(toSell(what) >= 0 && toSell(what) < amount) {
-      println("Cannot sell, current amount is only: " + toSell(what))
-      null
+      } else if(toSell(what) >= 0 && toSell(what) < amount) {
+      "Cannot sell, current amount is only: " + toSell(what)
+      } else {
+      "Cannot sell, the product is no longer available."
+      }
     } else {
-      println("Cannot sell, the product is no longer available.")
-      null
+      "You don't have enough money"
     }
+  }
+
+  def hasItem(buyable: Buyable): Boolean = {
+    if(toSell(buyable) > 0) true
+    else false
   }
 
   def printMerchantInfo(): Unit = {

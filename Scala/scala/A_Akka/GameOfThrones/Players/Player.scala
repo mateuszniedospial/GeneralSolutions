@@ -4,6 +4,7 @@ import A_Akka.GameOfThrones
 import A_Akka.GameOfThrones.Buyable.Buyable
 import A_Akka.GameOfThrones.NPCs.Merchant
 import A_Akka.GameOfThrones.Places.Place
+import akka.actor.ActorRef
 
 import scala.concurrent.duration.Duration
 
@@ -18,6 +19,8 @@ trait Player{
 
   var alliedWith: Player
   var surrenderedTo: Player
+
+  def returnSelf(): ActorRef
 
   def attack(place: Place, amountOfMilitary: Int): Player = {
     if(place.belongTo.equals(Noone)){
@@ -49,7 +52,7 @@ trait Player{
     }
   }
 
-  def buy(buyable: Buyable, fromWho: Merchant): Unit = {
+  def buy(buyable: Buyable, amount: Int, fromWho: Merchant): Unit = {
 
   }
 

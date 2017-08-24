@@ -1,6 +1,7 @@
 package A_Akka.GameOfThrones.Places
 
 import A_Akka.GameOfThrones.Players.{Noone, Player}
+import akka.actor.ActorRef
 
 /**
   * Created by Mateusz Niedośpiał on 19.08.2017.
@@ -16,6 +17,8 @@ trait Place {
 
   var occupiedBy: Player
   var amountOfHostileMilitary: Int
+
+  def returnSelf(): ActorRef
 
   def fightBack(against: Player, amountOfMilitary: Int): Player ={
     if(this.belongTo.equals(Noone) && occupiedBy.equals(Noone)){
@@ -36,7 +39,7 @@ trait Place {
       } else {
         amountOfHostileMilitary = resultInNumber
         occupiedBy = against
-        occupiedBy
+        isUnderAttackBy(against)
       }
     } else {
       val resultInNumber: Int = banditsAttack(against, amountOfMilitary)
@@ -44,16 +47,11 @@ trait Place {
         println("You've failed.")
         this.belongTo
       } else {
-        //Possible way to defend place that belongs to player
+        amountOfHostileMilitary = resultInNumber
+        occupiedBy = against
         isUnderAttackBy(against)
       }
     }
-  }
-
-  def taken(byWho: Player): Unit = {
-    byWho.gold = byWho.gold + gold
-    byWho.military = byWho.military + militaryToGain
-    belongTo = byWho
   }
 
   def defend(amountOfMilitary: Int): Player = {
@@ -81,22 +79,42 @@ trait Place {
     this.belongTo
   }
 
-  def takeGoldOutOfPlace(player: Player): Unit = {
+  def takeGoldOutOfPlace(player: Player): String = {
     if(this.belongTo.equals(player)){
       player.gold = player.gold + this.gold
       this.gold = 0
+      "Gold has been taken."
     } else {
-      println("You have no privileges to do that.")
+      "You have no privileges to do that."
     }
   }
 
-  def takeMilitaryOutOfPlace(player: Player): Unit = {
+  def takeMilitaryOutOfPlace(player: Player): String = {
     if(this.belongTo.equals(player)){
       player.military = player.military + this.militaryToGain
       this.militaryToGain = 0
+      "Gold has been taken."
     } else {
-      println("You have no privileges to do that.")
+      "You have no privileges to do that."
     }
+  }
+
+  def printInfo(): Unit = {
+    println("======= " + this.name + " ==============")
+    println("============================================")
+    println("== Gold : " + this.gold + "========================")
+    println("== Military to gain : " + this.militaryToGain + "======")
+    println("== Belong to : " + this.belongTo + "======")
+    println("== Bandits : " + this.bandits + "======")
+    println("== Occupied by : " + this.occupiedBy + "======")
+    println("== Hostile military : " + this.amountOfHostileMilitary + "======")
+    println("================================================================")
+  }
+
+  private def taken(byWho: Player): Unit = {
+    byWho.gold = byWho.gold + gold
+    byWho.military = byWho.military + militaryToGain
+    belongTo = byWho
   }
 
   private def isUnderAttackBy(player: Player): Player = player
