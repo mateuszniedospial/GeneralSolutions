@@ -24,19 +24,27 @@ class JonActor extends Actor{
     case NewAction =>
       val action: String = GameOfThrones.readActionFromConsole
 
+      statusActionMatch(Jon, action) match {
+        case Some(status) =>
+          status.ofWho.printStatus()
+          self ! Continue
+        case None =>
+          self ! Continue
+      }
       attackActionMatch(Jon, action) match {
         case Some(attack) =>
           attack.place.returnSelf() ! attack
         case None =>
-          println("None")
           self ! Continue
       }
       buyActionMatch(Jon, action) match {
         case Some(buy) =>
-          buy.fromWho.returnSelf() ! buy
+          implicit val timeout: Timeout = Timeout(5, TimeUnit.SECONDS)
+          val future: Future[Any] = buy.fromWho.returnSelf() ? buy
+          val reply: Sold = Await.result(future, timeout.duration).asInstanceOf[Sold]
+          println(reply.message)
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
       showGoodsActionMatch(Jon, action) match {
@@ -47,7 +55,6 @@ class JonActor extends Actor{
           reply.f.apply()
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
       placeInfoActionMatch(Jon, action) match {
@@ -58,7 +65,6 @@ class JonActor extends Actor{
           reply.f.apply()
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
       goToActionMatch(Jon, action) match {
@@ -70,7 +76,6 @@ class JonActor extends Actor{
           println(message)
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
       defActionMatch(Jon, action) match {
@@ -81,7 +86,6 @@ class JonActor extends Actor{
           println(reply)
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
       doNotDefActionMatch(Jon, action) match {
@@ -89,7 +93,6 @@ class JonActor extends Actor{
           ddef.place.returnSelf() ! ddef
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
       allyActionMatch(Jon, action) match {
@@ -100,23 +103,21 @@ class JonActor extends Actor{
           println(reply)
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
       surActionMatch(Jon, action) match {
         case Some(sur) =>
           sur.toWho.returnSelf() ! sur
           println("You have surrendered and therefore the game of thrones is over for you.")
+          context stop DaenerysActor.actor
+          context stop CerseiActor.actor
+          context stop self
+          Starter.system.terminate()
         case None =>
-          println("None")
           self ! Continue
       }
 
     case NotAllowed(message) =>
-      println(message)
-      self ! Continue
-
-    case Sold(message) =>
       println(message)
       self ! Continue
 
@@ -141,7 +142,6 @@ class JonActor extends Actor{
           println(reply)
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
       doNotDefActionMatch(Jon, action) match {
@@ -149,7 +149,6 @@ class JonActor extends Actor{
           ddef.place.returnSelf() ! ddef
           self ! Continue
         case None =>
-          println("None")
           self ! Continue
       }
 

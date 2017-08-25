@@ -21,15 +21,15 @@ trait Merchant {
       toSell(what) = toSell(what)-amount
       what.getType() match {
         case "Military" =>
-          toWhom.gold = toWhom.gold - Military(amount).price()
-          toWhom.military = toWhom.military + Military(amount).amount()
+          toWhom.gold = toWhom.gold - what.price()
+          toWhom.military = toWhom.military + 100000*amount
           "Successfully bought: " + what.getType() + " x 1"
         case "DrakeDestroyer" =>
-          toWhom.gold = toWhom.gold - DrakeDestroyer(amount).price()
-          toWhom.drakeDestroyer = toWhom.drakeDestroyer + DrakeDestroyer(amount).amount()
+          toWhom.gold = toWhom.gold - what.price()
+          toWhom.drakeDestroyer = toWhom.drakeDestroyer + 1*amount
           "Successfully bought: " + what.getType() + " x 1"
         case "BetterEquipment" =>
-          toWhom.gold = toWhom.gold - BetterEquipment(amount).price()
+          toWhom.gold = toWhom.gold - what.price()
           toWhom.betterEquippedMilitary = true
           "Successfully bought: " + what.getType() + " x 1"
       }
@@ -49,12 +49,12 @@ trait Merchant {
   }
 
   def printMerchantInfo(): Unit = {
-    println("======= " + this.toString + " ====")
+    println("========== " + this.toString + " ============")
     println("==============================")
     println("======= Current Goods ========")
     println("==============================")
-    println("= Name ===== Amount | Price ==")
-    for((k,v) <- toSell) println("= " + k + "== " + v + " | " + k.price() + "==")
+    println("== Name(Amount)[Price] =======")
+    for((k,v) <- toSell) println("== " + k.getType() + "(" + v + ")" + "[" + k.price() + "]")
     println("==============================")
   }
 }

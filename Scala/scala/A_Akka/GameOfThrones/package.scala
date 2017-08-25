@@ -21,12 +21,13 @@ package object GameOfThrones {
   case class DoNotDefend(place: Place)
 
   case class GoTo(toWho: Merchant, who: Player)
-  case class Buy(player: Player, buyable: Buyable, fromWho: Merchant)
+  case class Buy(player: Player, buyable: Buyable, amount: Int, fromWho: Merchant)
 
   case class Alliance(toWho: Player)
   case class Surrender(toWho: Player)
 
   case class NewAction()
+  case class Status(ofWho: Player)
 
   /**
     * Merchant section messages:
@@ -146,18 +147,18 @@ package object GameOfThrones {
 
   def buyActionMatch(player: Player, action: String): Option[Buy] = {
     action match {
-      case "buy(dd)A" if Alonso.occupiedBy.equals(player) => Option(Buy(player, DrakeDestroyer(1), Alonso))
-      case "buy(m)A" if Alonso.occupiedBy.equals(player) => Option(Buy(player, Military(1), Alonso))
-      case "buy(eq)A" if Alonso.occupiedBy.equals(player) => Option(Buy(player, BetterEquipment(1), Alonso))
-      case "buy(dd)F" if Frederick.occupiedBy.equals(player) => Option(Buy(player, DrakeDestroyer(1), Frederick))
-      case "buy(m)F" if Frederick.occupiedBy.equals(player) => Option(Buy(player, Military(1), Frederick))
-      case "buy(eq)F" if Frederick.occupiedBy.equals(player) => Option(Buy(player, BetterEquipment(1), Frederick))
-      case "buy(dd)H" if Hulio.occupiedBy.equals(player) => Option(Buy(player, DrakeDestroyer(1), Hulio))
-      case "buy(m)H" if Hulio.occupiedBy.equals(player) => Option(Buy(player, Military(1), Hulio))
-      case "buy(eq)H" if Hulio.occupiedBy.equals(player) => Option(Buy(player, BetterEquipment(1), Hulio))
-      case "buy(dd)M" if Melundir.occupiedBy.equals(player) => Option(Buy(player, DrakeDestroyer(1), Melundir))
-      case "buy(m)M" if Melundir.occupiedBy.equals(player) => Option(Buy(player, Military(1), Melundir))
-      case "buy(eq)M" if Melundir.occupiedBy.equals(player) => Option(Buy(player, BetterEquipment(1), Melundir))
+      case "buy(dd)A" if Alonso.occupiedBy.equals(player) => Option(Buy(player, DrakeDestroyer(), 1, Alonso))
+      case "buy(m)A" if Alonso.occupiedBy.equals(player) => Option(Buy(player, Military(), 1,  Alonso))
+      case "buy(eq)A" if Alonso.occupiedBy.equals(player) => Option(Buy(player, BetterEquipment(), 1,  Alonso))
+      case "buy(dd)F" if Frederick.occupiedBy.equals(player) => Option(Buy(player, DrakeDestroyer(), 1, Frederick))
+      case "buy(m)F" if Frederick.occupiedBy.equals(player) => Option(Buy(player, Military(), 1, Frederick))
+      case "buy(eq)F" if Frederick.occupiedBy.equals(player) => Option(Buy(player, BetterEquipment(), 1, Frederick))
+      case "buy(dd)H" if Hulio.occupiedBy.equals(player) => Option(Buy(player, DrakeDestroyer(), 1, Hulio))
+      case "buy(m)H" if Hulio.occupiedBy.equals(player) => Option(Buy(player, Military(), 1, Hulio))
+      case "buy(eq)H" if Hulio.occupiedBy.equals(player) => Option(Buy(player, BetterEquipment(), 1, Hulio))
+      case "buy(dd)M" if Melundir.occupiedBy.equals(player) => Option(Buy(player, DrakeDestroyer(), 1, Melundir))
+      case "buy(m)M" if Melundir.occupiedBy.equals(player) => Option(Buy(player, Military(), 1, Melundir))
+      case "buy(eq)M" if Melundir.occupiedBy.equals(player) => Option(Buy(player, BetterEquipment(), 1, Melundir))
 
       case _ => None
     }
@@ -293,6 +294,13 @@ package object GameOfThrones {
       case "sur(c)" => Option(Surrender(Cersei))
       case "sur(j)" => Option(Surrender(Jon))
 
+      case _ => None
+    }
+  }
+
+  def statusActionMatch(player: Player, action: String): Option[Status] = {
+    action match {
+      case "status" => Option(Status(player))
       case _ => None
     }
   }

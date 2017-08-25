@@ -79,41 +79,23 @@ trait Place {
     this.belongTo
   }
 
-  def takeGoldOutOfPlace(player: Player): String = {
-    if(this.belongTo.equals(player)){
-      player.gold = player.gold + this.gold
-      this.gold = 0
-      "Gold has been taken."
-    } else {
-      "You have no privileges to do that."
-    }
-  }
-
-  def takeMilitaryOutOfPlace(player: Player): String = {
-    if(this.belongTo.equals(player)){
-      player.military = player.military + this.militaryToGain
-      this.militaryToGain = 0
-      "Gold has been taken."
-    } else {
-      "You have no privileges to do that."
-    }
-  }
-
   def printInfo(): Unit = {
-    println("======= " + this.name + " ==============")
-    println("============================================")
-    println("== Gold : " + this.gold + "========================")
-    println("== Military to gain : " + this.militaryToGain + "======")
-    println("== Belong to : " + this.belongTo + "======")
-    println("== Bandits : " + this.bandits + "======")
-    println("== Occupied by : " + this.occupiedBy + "======")
-    println("== Hostile military : " + this.amountOfHostileMilitary + "======")
-    println("================================================================")
+    println("========== " + this.name + " ===========")
+    println("=================================")
+    println("== Gold : " + this.gold)
+    println("== Military to gain : " + this.militaryToGain)
+    println("== Belong to : " + this.belongTo)
+    println("== Bandits : " + this.bandits)
+    println("== Occupied by : " + this.occupiedBy)
+    println("== Hostile military : " + this.amountOfHostileMilitary)
+    println("=================================")
   }
 
   private def taken(byWho: Player): Unit = {
     byWho.gold = byWho.gold + gold
+    this.gold = 0
     byWho.military = byWho.military + militaryToGain
+    this.militaryToGain = 0
     belongTo = byWho
   }
 

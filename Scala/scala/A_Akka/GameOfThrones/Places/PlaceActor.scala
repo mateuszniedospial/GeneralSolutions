@@ -45,10 +45,6 @@ class PlaceActor extends Actor{
         owner.returnSelf() ! HoldThePlace("The place: " + place.name + "was attacked by: " + player.toString + "" +
           "but remains yours for now.")
       }
-    case TakeGoldFromPlace(place, player) =>
-      player.returnSelf() ! GoldTaken(place.takeGoldOutOfPlace(player))
-    case TakeMilitaryFromPlace(place, player) =>
-      player.returnSelf() ! MilitaryTaken(place.takeMilitaryOutOfPlace(player))
     case PrintInfoAboutPlace(place) =>
       val print: Unit = place.printInfo()
       sender ! InfoReply(() => print)

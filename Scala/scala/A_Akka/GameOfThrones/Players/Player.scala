@@ -52,6 +52,17 @@ trait Player{
     }
   }
 
+  def printStatus(): Unit = {
+    println("============ Status =============")
+    println("=================================")
+    println("== Gold : " + this.gold)
+    println("== Military : " + this.military)
+    println("== BetterEquipment : " + this.betterEquippedMilitary.toString)
+    println("== DrakeDestroyers : " + this.drakeDestroyer.toString)
+    println("== Alliance with : " + this.alliedWith.toString)
+    println("=================================")
+  }
+
   def buy(buyable: Buyable, amount: Int, fromWho: Merchant): Unit = {
 
   }
