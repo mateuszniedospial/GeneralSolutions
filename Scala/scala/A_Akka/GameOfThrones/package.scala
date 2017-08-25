@@ -3,7 +3,7 @@ package A_Akka
 import A_Akka.GameOfThrones.Buyable.{BetterEquipment, Buyable, DrakeDestroyer, Military}
 import A_Akka.GameOfThrones.NPCs._
 import A_Akka.GameOfThrones.Places._
-import A_Akka.GameOfThrones.Players.{Cersei, Daenerys, Jon, Player}
+import A_Akka.GameOfThrones.Players._
 
 import scala.io.StdIn
 

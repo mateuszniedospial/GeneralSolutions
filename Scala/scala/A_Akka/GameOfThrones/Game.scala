@@ -1,6 +1,6 @@
 package A_Akka.GameOfThrones
 
-import A_Akka.GameOfThrones.Players.{Cersei, Daenerys, Jon}
+import A_Akka.GameOfThrones.Players.{CerseiActor, DaenerysActor, JonActor}
 import akka.actor.{Actor, Props}
 
 /**
@@ -9,8 +9,8 @@ import akka.actor.{Actor, Props}
 class Game extends Actor{
   override def receive: Receive = {
     case StartTheGame() =>
-      Cersei.self ! GameStarted
-      Daenerys.self ! GameStarted
-      Jon.self ! GameStarted
+      CerseiActor.actor ! GameStarted
+      DaenerysActor.actor ! GameStarted
+      JonActor.actor ! GameStarted
   }
 }

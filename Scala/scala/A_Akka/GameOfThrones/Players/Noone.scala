@@ -1,14 +1,14 @@
 package A_Akka.GameOfThrones.Players
+
 import A_Akka.GameOfThrones.Places.Place
-import akka.actor.{Actor, ActorRef}
+import akka.actor.ActorRef
 
 import scala.concurrent.duration.Duration
 
 /**
-  * Created by Mateusz Niedośpiał on 19.08.2017.
+  * Created by Mateusz Niedośpiał on 25.08.2017.
   */
-case object Noone extends Player with Actor{
-  Noone.preStart()
+object Noone extends Player{
   override var gold: Double = 0
   override var military: Int = 0
   override var betterEquippedMilitary: Boolean = false
@@ -20,8 +20,5 @@ case object Noone extends Player with Actor{
   override def proposeAlliance(toWho: Player, duration: Duration): Unit = {}
   override def surrender(toWho: Player): Unit = {}
   override def toString: String = "Noone"
-  override def returnSelf(): ActorRef = Noone.self
-  override def receive: Receive = {
-    case _ =>
-  }
+  override def returnSelf(): ActorRef = NooneActor.actor
 }
