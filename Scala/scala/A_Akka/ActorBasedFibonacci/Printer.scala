@@ -16,7 +16,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * Created by Mateusz Niedośpiał on 18.08.2017.
   */
 class Printer extends Actor{
-
   override def receive: Receive = {
     case PrintAction(a: Long) =>
       println(a)

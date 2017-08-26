@@ -4,12 +4,10 @@ package X_Exercises.ScalaStart;
  * Created by Mateusz Niedośpiał on 18.06.2017.
  */
 public class Nowa {
-
     private static final int NUMBER = 10;
 
     private String firstField;
     private String secondField;
-
     private Integer firstNumber;
     private int secondNumberPr;
 
