@@ -1,7 +1,9 @@
 package C_DataStructures;
 import C_DataStructures.Lists.ArrayList;
 
+import java.util.ArrayDeque;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.NoSuchElementException;
 
 /**
@@ -446,6 +448,84 @@ public class BinarySearchTree<K,V> {
         return entryList;
     }
 
+    public int height(){
+        return calculateHeight(root);
+    }
+
+    private int calculateHeight(TreeNode root){
+        if(root == null){
+            return -1;
+        } else {
+            return 1+Integer.max(calculateHeight(root.leftSon), calculateHeight(root.rightSon));
+        }
+    }
+
+    public void traversalInOrder(){traversalOrder(root);}
+
+    private void traversalOrder(TreeNode<K, V> root) {
+        if(root == null){
+        } else {
+            System.out.println(String.valueOf(root.value));
+            traversalOrder(root.leftSon);
+            traversalOrder(root.rightSon);
+        }
+    }
+
+    public void traversalOrderWithoutRecursion(){
+        traversalInOrderWithout(root);
+    }
+
+    private void traversalInOrderWithout(TreeNode<K, V> root) {
+        Deque<TreeNode<K, V>> stack = new ArrayDeque<>();
+        if(root != null){
+            stack.addLast(root);
+        } else {
+            throw new UnsupportedOperationException("root is null");
+        }
+        while(!stack.isEmpty()){
+            TreeNode<K, V> popped = stack.pop();
+            System.out.println(String.valueOf(popped.value));
+            if(popped.rightSon != null){
+                stack.push(popped.rightSon);
+            }
+            if(popped.leftSon != null){
+                stack.push(popped.leftSon);
+            }
+        }
+    }
+
+    public void printAllLeafs(){
+        printLeafs(root);
+    }
+
+    private void printLeafs(TreeNode<K, V> root) {
+        if(root == null){
+        } else {
+            if(root.leftSon == null && root.rightSon == null){
+                System.out.println(String.valueOf(root.value));
+            }
+            printLeafs(root.leftSon);
+            printLeafs(root.rightSon);
+        }
+    }
+
+    public void printLeafs(){
+        printAllLeaf(root);
+    }
+
+    private void printAllLeaf(TreeNode<K, V> root) {
+        if(root == null){
+           return;
+        }else{
+            if(root.rightSon == null && root.leftSon == null){
+                System.out.println(root.value);
+            }
+            printAllLeaf(root.leftSon);
+            printAllLeaf(root.rightSon);
+        }
+    }
+
+
     /**
      * Simple recursive method for retrieving value of node that contains specific nodeKey
      * using comparator. Marked as deprecated since the regular method is better optimized.
@@ -480,7 +560,7 @@ public class BinarySearchTree<K,V> {
      * @param <K> any type of the Key leading to Value for Node.
      * @param <V> any type of Value held inside the TreeNode.
      */
-    static final class TreeNode<K,V>{
+    public static final class TreeNode<K,V>{
         K key;
         V value;
         TreeNode<K,V> parent;

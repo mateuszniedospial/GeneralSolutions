@@ -75,6 +75,21 @@ public class LinkedList<T> {
         }
     }
 
+    public T middle(){
+        Node<T> last = head;
+        Node<T> mid = head;
+        while(last != null){
+            if(last.next != null && last.next.next != null){
+                last = last.next.next;
+                mid = mid.next;
+            }else{
+                last = last.next;
+//                mid = mid.next;
+            }
+        }
+        return mid.key;
+    }
+
     @SuppressWarnings("unchecked")
     public void addAll(Collection<? extends T> collection){
         Object[] keys = collection.toArray();
@@ -303,6 +318,18 @@ public class LinkedList<T> {
 
     private void checkIfEmpty(){
         if(size == 0) throw new NoSuchElementException();
+    }
+
+    public void reverse(){
+        Node<T> current = head;
+        Node<T> previous = null;
+        Node<T> pointer = null;
+        while(current != null){
+            pointer = current.next;
+            current.next = previous;
+            previous = current;
+            current = pointer;
+        }
     }
 
     /**

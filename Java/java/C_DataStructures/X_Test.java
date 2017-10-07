@@ -21,7 +21,6 @@ public class X_Test {
         Heap maxHeap = new Heap(heapArray, HeapType.MAX);
         Heap minHeap = new Heap(heapArray, HeapType.MIN);
 
-
         System.out.println("Max heap:");
         for (int aMaxHeap : maxHeap.get()) {
             System.out.println(aMaxHeap);

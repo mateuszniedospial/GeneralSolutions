@@ -226,4 +226,225 @@ public class SortsByComparisons {
             iteratorB++;
         }
     }
+
+    static void selection(int[] toSort){
+        int length = toSort.length;
+        int iteratorA;
+        int iteratorB;
+        for(iteratorA = 0; iteratorA < length-1; iteratorA++){
+            iteratorB = iteratorA+1;
+            while(iteratorB < length){
+                if(toSort[iteratorA] > toSort[iteratorB]){
+                    int temp = toSort[iteratorA];
+                    toSort[iteratorA] = toSort[iteratorB];
+                    toSort[iteratorB] = temp;
+                }
+                iteratorB++;
+            }
+        }
+    }
+
+    static void insertion(int[] toSort){
+        for(int itA = 1; itA < toSort.length; itA++){
+            int itB = itA-1;
+            int itAA = itA;
+            while(itB >= 0){
+                if(toSort[itB] > toSort[itAA]){
+                    int temp = toSort[itAA];
+                    toSort[itAA] = toSort[itB];
+                    toSort[itB] = temp;
+                }
+                itB--;
+                itAA--;
+            }
+        }
+    }
+
+    static void shell(int[] toSort){
+        int gap = toSort.length/2;
+        while(gap > 0){
+            for(int itA = gap; itA < toSort.length; itA++){
+                int itB = itA - gap;
+                int itAA = itA;
+                while(itB >= 0 && (itAA < toSort.length)){
+                    if(toSort[itB] > toSort[itAA]){
+                        int temp = toSort[itB];
+                        toSort[itB] = toSort[itAA];
+                        toSort[itAA] = temp;
+                    }
+                    itB -= gap;
+                    itAA -= gap;
+                }
+            }
+            gap /= 2;
+        }
+    }
+
+    static void bubble(int[] toSort){
+        boolean wasSwapped;
+        do {
+            wasSwapped = false;
+            for(int i = 0; i < toSort.length; i++){
+                if(i+1 < toSort.length){
+                    if(toSort[i] > toSort[i+1]){
+                        int temp = toSort[i];
+                        toSort[i] = toSort[i+1];
+                        toSort[i+1] = temp;
+                        wasSwapped = true;
+                    }
+                }
+            }
+        } while(wasSwapped);
+    }
+
+    static void mergeSortThe2nd(int[] toSort){
+        split(toSort, 0, toSort.length-1);
+    }
+
+    private static void split(int[] toSort, int low, int high){
+        if(low < high){
+            int mid = (low+high)/2;
+            split(toSort, low, mid);
+            split(toSort, mid+1, high);
+            mergeThe2nd(toSort, low, mid, high);
+        }
+    }
+
+    private static void mergeThe2nd(int[] toSort, int low, int mid, int high) {
+        int[] helper = new int[high+1];
+        for(int i = 0; i <= high; i++){
+            helper[i] = toSort[i];
+        }
+
+        int i = low;
+        int j = mid+1;
+        int k = low;
+
+        while(i <= mid && j <= high){
+            if(helper[i] < helper[j]){
+                toSort[k] = helper[i];
+                i++;
+            } else {
+                toSort[k] = helper[j];
+                j++;
+            }
+            k++;
+        }
+
+        while(i < mid || j < high){
+            if(i < mid){
+                toSort[k] = helper[i];
+                i++;
+            } else {
+                toSort[k] = helper[j];
+                j++;
+            }
+            k++;
+        }
+    }
+
+    static void mergeSortThe3rd(int[] toSort){
+        splitRec(toSort, 0, toSort.length-1);
+    }
+
+    private static void splitRec(int[] toSort, int low, int upper) {
+        if(low < upper){
+            int middle = low + (upper-low)/2;
+            splitRec(toSort, low, middle);
+            splitRec(toSort, middle+1, upper);
+            mergeThe3rd(toSort, low, middle, upper);
+        }
+    }
+
+    private static void mergeThe3rd(int[] toSort, int low, int middle, int upper) {
+        int[] helper = new int[toSort.length];
+        for(int i = low; i<toSort.length; i++){
+            helper[i] = toSort[i];
+        }
+
+        int i = low;
+        int j = middle+1;
+        int k = low;
+
+        while(i <= middle && j <= upper){
+            if(helper[i] <= helper[j]){
+                toSort[k] = helper[i];
+                i++;
+            } else {
+                toSort[k] = helper[j];
+                j++;
+            }
+            k++;
+        }
+
+        while(i <= middle){
+            toSort[k] = helper[i];
+            i++;
+            k++;
+        }
+    }
+
+    static void quickSortThe2nd(int [] array, int startPosition, int lastPosition){
+        if(startPosition < lastPosition){
+            int division = partitionThe2nd(array, startPosition, lastPosition);
+            quickSortThe2nd(array, startPosition, division-1);
+            quickSortThe2nd(array, division+1, lastPosition);
+        }
+    }
+
+    private static int partitionThe2nd(int[] array, int low, int upper) {
+        int lastValue = array[upper];
+        int k = low - 1;
+        for(int j = low; j < upper; j++){
+            if(array[j] < lastValue){
+                k++;
+                int temp = array[k];
+                array[k] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        int temp = array[k+1];
+        array[k+1] = array[upper];
+        array[upper] = temp;
+        return k+1;
+    }
+
+    static void countingSort(int[] toSort, int minValue, int maxValue){
+        int bound = (maxValue - minValue) + 1;
+        int[] helper = new int[bound];
+
+        //Int always has initial values = 0;
+        for(int i = 0; i < toSort.length; i++){
+            int temp = toSort[i];
+            helper[temp-1] += 1;
+        }
+
+        int j = 0;
+
+        for(int k = 0; k < helper.length; k++){
+            while(helper[k] != 0){
+                toSort[j] = k + minValue;
+                j++;
+                helper[k] -= 1;
+            }
+        }
+
+        //For GC;
+        helper = null;
+    }
+
+    public static void main(String[] args) {
+//        int[] array = {7, 10, 1, 2, 14, 8, 5, 9, 12, 3};
+        int[] array = {1, 5, 1, 4, 3, 2, 3, 6, 6, 1};
+//        selection(array);
+//        for(int a : array){
+//            System.out.println(a);
+//        }
+
+        countingSort(array, 1, 6);
+        for(int a : array){
+            System.out.println(a);
+        }
+    }
 }
