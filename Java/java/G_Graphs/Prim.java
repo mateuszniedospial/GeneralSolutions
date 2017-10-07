@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.stream.Collectors;
 
 /**
  * Created by Mateusz Niedośpiał on 06.10.2017.
@@ -49,6 +48,9 @@ public class Prim {
                         break;
                     }
                 }
+                //Unfortunately there is no decreaseKey on standard PQ implemented in JCA,
+                //That is why I'm doing here a cheat by deleting changed Node from PQ and adding once again so
+                //PQ can reconstruct and get balanced:
                 vertexes.remove(temp);
                 if(temp != null) temp.setPriority(0);
                 vertexes.add(temp);

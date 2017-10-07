@@ -72,4 +72,44 @@ public class WeightedGraph {
         }
         return result;
     }
+
+    public Vertex[] dijkstra(int startingNode){
+        Vertex[] result = new Vertex[vertexes.size()];
+        vertexes.forEach(v -> result[v.getIndex()] = v);
+        PriorityQueue<Vertex> PQ = new PriorityQueue<>(new Comparator<Vertex>(){
+            @Override
+            public int compare(Vertex o1, Vertex o2) {
+                return o1.getCurrentPathCostSum() - o2.getCurrentPathCostSum();
+            }
+        });
+
+        for(Vertex v : result){
+            if(v.getIndex() == startingNode){
+                v.setCurrentPathCostSum(0);
+                PQ.add(v);
+            }else{
+                v.setCurrentPathCostSum(Integer.MAX_VALUE);
+                PQ.add(v);
+            }
+        }
+
+        while(! PQ.isEmpty()){
+            Vertex greedyMin = PQ.poll();
+            for (Edge e : adj.get(greedyMin.getIndex())) {
+                if(result[e.getStartNode()].getCurrentPathCostSum() != Integer.MAX_VALUE && result[e.getEndNode()].getCurrentPathCostSum() > result[e.getStartNode()].getCurrentPathCostSum()+e.getWeight()){
+                    //Unfortunately there is no decreaseKey on standard PQ implemented in JCA,
+                    //That is why I'm doing here cheat by deleting changed Node from PQ and adding once again so
+                    //PQ can reconstruct and get balanced:
+                    Vertex toDeleteAndAdd = result[e.getEndNode()];
+                    PQ.remove(toDeleteAndAdd);
+                    //Replacing sum cost for lower one:
+                    result[e.getEndNode()].setCurrentPathCostSum(result[e.getStartNode()].getCurrentPathCostSum()+e.getWeight());
+                    //Changing predecessor:
+                    result[e.getEndNode()].setIndexOfPredecessor(e.getStartNode());
+                    PQ.add(toDeleteAndAdd);
+                }
+            }
+        }
+        return result;
+    }
 }

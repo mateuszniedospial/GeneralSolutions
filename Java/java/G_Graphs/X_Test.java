@@ -230,5 +230,88 @@ public class X_Test {
         WeightedGraph forBellam = new WeightedGraph(vertexes, vertexes.size(), 8, adjacencyOfGraph);
         int[] shortestPathsS = forBellam.bellamFord(0);
         int[] shortestPathsD = forBellam.bellamFord(4);
+
+        Vertex a_dijkstra = new Vertex(0);
+        Vertex b_dijkstra = new Vertex(1);
+        Vertex c_dijkstra = new Vertex(2);
+        Vertex d_dijkstra = new Vertex(3);
+        Vertex e_dijkstra = new Vertex(4);
+        Vertex f_dijkstra = new Vertex(5);
+        Vertex g_dijkstra = new Vertex(6);
+        Vertex h_dijkstra = new Vertex(7);
+
+        List<Vertex> vertexesDijkstra = new ArrayList<>();
+        vertexesDijkstra.add(a_dijkstra);
+        vertexesDijkstra.add(b_dijkstra);
+        vertexesDijkstra.add(c_dijkstra);
+        vertexesDijkstra.add(d_dijkstra);
+        vertexesDijkstra.add(e_dijkstra);
+        vertexesDijkstra.add(f_dijkstra);
+        vertexesDijkstra.add(g_dijkstra);
+        vertexesDijkstra.add(h_dijkstra);
+
+        Edge a_b_Dij = new Edge(0, 1, 20);
+        Edge a_d_Dij = new Edge(0, 3, 80);
+        Edge a_g_Dij = new Edge(0, 6, 90);
+
+        Edge b_f_Dij = new Edge(1, 5, 10);
+
+        Edge c_d_Dij = new Edge(2, 3, 10);
+        Edge c_F_Dij = new Edge(2, 5, 50);
+        Edge c_H_Dij = new Edge(2, 7, 20);
+
+        Edge d_C_Dij = new Edge(3, 2, 10);
+        Edge d_G_Dij = new Edge(3, 6, 20);
+
+        Edge e_B_Dij = new Edge(4, 1, 50);
+        Edge e_G_Dij = new Edge(4, 6, 30);
+
+        Edge f_C_Dij = new Edge(5, 2, 10);
+        Edge f_D_Dij = new Edge(5, 3, 40);
+
+        Edge g_A_Dij = new Edge(6, 0, 20);
+
+        List<List<Edge>> adjALL = new ArrayList<>();
+        List<Edge> adjOfA = new ArrayList<>();
+        adjOfA.add(a_b_Dij);
+        adjOfA.add(a_d_Dij);
+        adjOfA.add(a_g_Dij);
+
+        List<Edge> adjOfB = new ArrayList<>();
+        adjOfB.add(b_f_Dij);
+
+        List<Edge> adjOfC = new ArrayList<>();
+        adjOfC.add(c_d_Dij);
+        adjOfC.add(c_F_Dij);
+        adjOfC.add(c_H_Dij);
+
+        List<Edge> adjOfD = new ArrayList<>();
+        adjOfD.add(d_C_Dij);
+        adjOfD.add(d_G_Dij);
+
+        List<Edge> adjOfE = new ArrayList<>();
+        adjOfE.add(e_B_Dij);
+        adjOfE.add(e_G_Dij);
+
+        List<Edge> adjOfF = new ArrayList<>();
+        adjOfF.add(f_C_Dij);
+        adjOfF.add(f_D_Dij);
+
+        List<Edge> adjOfG = new ArrayList<>();
+        adjOfG.add(g_A_Dij);
+
+        List<Edge> adjOfH = new ArrayList<>();
+
+        adjALL.add(adjOfA);
+        adjALL.add(adjOfB);
+        adjALL.add(adjOfC);
+        adjALL.add(adjOfD);
+        adjALL.add(adjOfE);
+        adjALL.add(adjOfF);
+        adjALL.add(adjOfG);
+        adjALL.add(adjOfH);
+
+        WeightedGraph graphForDijkstra = new WeightedGraph(vertexesDijkstra, 8, 14, adjALL);
+        Vertex[] dijkstraResult = graphForDijkstra.dijkstra(0);
     }
 }
